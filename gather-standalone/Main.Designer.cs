@@ -36,6 +36,7 @@
             this.InfoLabel = new System.Windows.Forms.Label();
             this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.HideButton = new System.Windows.Forms.Button();
+            this.QuitOnLeaveOption = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // MainTitle
@@ -90,7 +91,7 @@
             // 
             // HideButton
             // 
-            this.HideButton.Location = new System.Drawing.Point(323, 86);
+            this.HideButton.Location = new System.Drawing.Point(607, 81);
             this.HideButton.Name = "HideButton";
             this.HideButton.Size = new System.Drawing.Size(239, 40);
             this.HideButton.TabIndex = 7;
@@ -98,11 +99,22 @@
             this.HideButton.UseVisualStyleBackColor = true;
             this.HideButton.Click += new System.EventHandler(this.HideButton_Click);
             // 
+            // QuitOnLeaveOption
+            // 
+            this.QuitOnLeaveOption.AutoSize = true;
+            this.QuitOnLeaveOption.Location = new System.Drawing.Point(27, 85);
+            this.QuitOnLeaveOption.Name = "QuitOnLeaveOption";
+            this.QuitOnLeaveOption.Size = new System.Drawing.Size(352, 29);
+            this.QuitOnLeaveOption.TabIndex = 8;
+            this.QuitOnLeaveOption.Text = "Quit if Battlefield 1 isn\'t detected";
+            this.QuitOnLeaveOption.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(879, 152);
+            this.ClientSize = new System.Drawing.Size(879, 140);
+            this.Controls.Add(this.QuitOnLeaveOption);
             this.Controls.Add(this.HideButton);
             this.Controls.Add(this.InfoLabel);
             this.Controls.Add(this.IdLabel);
@@ -126,6 +138,7 @@
         private System.Windows.Forms.Label InfoLabel;
         private System.Windows.Forms.NotifyIcon TrayIcon;
         private System.Windows.Forms.Button HideButton;
+        private System.Windows.Forms.CheckBox QuitOnLeaveOption;
     }
 }
 
