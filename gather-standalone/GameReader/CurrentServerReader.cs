@@ -16,6 +16,8 @@ namespace gather_standalone.GameReader
         public string ServerName { get; private set; }
         public DateTime RefreshTime { get; private set; }
         public bool hasResults { get; private set; }
+        public int ServerScoreTeam1 { get; private set; }
+        public int ServerScoreTeam2 { get; private set; }
 
         public CurrentServerReader()
         {
@@ -34,6 +36,8 @@ namespace gather_standalone.GameReader
         {
             if (Memory.Initialize())
             {
+                ServerScoreTeam1 = Memory.Read<int>(Memory.GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam1);
+                ServerScoreTeam2 = Memory.Read<int>(Memory.GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam2);
                 ServerName = Memory.ReadString(Memory.GetBaseAddress() + Offsets.ServerName_Offset, Offsets.ServerName, 64);
                 ServerName = string.IsNullOrEmpty(ServerName) ? "" : ServerName;
 

@@ -18,7 +18,9 @@ namespace gather_standalone
                 teams = new
                 {
                     team1 = current_server_reader.PlayerLists_Team1,
-                    team2 = current_server_reader.PlayerLists_Team2
+                    team2 = current_server_reader.PlayerLists_Team2,
+                    scoreteam1 = current_server_reader.ServerScoreTeam1,
+                    scoreteam2 = current_server_reader.ServerScoreTeam2
                 }
             };
             JavaScriptSerializer json_serializer = new JavaScriptSerializer();
