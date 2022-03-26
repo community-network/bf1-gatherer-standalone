@@ -1,0 +1,44 @@
+name: .NET
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: windows-2019
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Find and Replace
+      run: ((Get-Content -path App.config -Raw) -replace 'SUPERSECRETPLACEHOLDER','${{ secrets.JwtToken }}') | Set-Content -Path App.config
+    
+    - name: setup MS-build
+      uses: microsoft/setup-msbuild@v1
+      
+    - name: Build
+      run: msbuild gather-standalone.sln /p:Configuration=Release /p:Platform=x64
+    - name: release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        release_name: "latest"
+        tag_name: ${{ github.ref }}
+        body_path: CHANGELOG.md
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+    - name: upload windows artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: gather-standalone\bin\x64\Release\gather-standalone.exe
+        asset_name: gather-standalone.exe
+        asset_content_type: application/exe
