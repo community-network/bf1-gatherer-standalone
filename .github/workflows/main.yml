@@ -3,8 +3,6 @@ name: .NET
 on:
   push:
     branches: [ master ]
-    tags:
-      - 'v*.*.*'
 
 jobs:
   build:
@@ -29,13 +27,11 @@ jobs:
     - name: Build
       run: msbuild gather-standalone.sln /p:Configuration=Release /p:Platform=x64
     - name: release
-      uses: actions/create-release@v1
+      uses: zendesk/action-create-release@v1
       id: create_release
       with:
         draft: false
         prerelease: false
-        release_name: ${{github.ref_name}}
-        tag_name: ${{ github.ref }}
         body_path: CHANGELOG.md
       env:
         GITHUB_TOKEN: ${{ github.token }}
