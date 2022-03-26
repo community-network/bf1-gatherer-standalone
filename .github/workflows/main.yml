@@ -17,9 +17,20 @@ jobs:
     - name: Find and Replace
       run: ((Get-Content -path gather-standalone\App.config -Raw) -replace 'SUPERSECRETPLACEHOLDER','${{ secrets.JwtToken }}') | Set-Content -Path gather-standalone\App.config
     
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 4.7.2
+        
     - name: setup MS-build
       uses: microsoft/setup-msbuild@v1
-      
+    
+    - name: Setup Nuget
+      uses: Nuget/setup-nuget@v1.0.5
+
+    - name: Restore nuget packages
+      run: nuget restore gather-standalone.sln
+    
     - name: Build
       run: msbuild gather-standalone.sln /p:Configuration=Release /p:Platform=x64
     - name: release
