@@ -26,7 +26,6 @@ namespace gather_standalone
             };
             JavaScriptSerializer json_serializer = new JavaScriptSerializer();
             string dataString = json_serializer.Serialize(post);
-
             WebClient webClient = new WebClient();
             string jwtData = Jwt.Create(guid, dataString);
             webClient.Headers.Add(HttpRequestHeader.ContentType, "application/json");
