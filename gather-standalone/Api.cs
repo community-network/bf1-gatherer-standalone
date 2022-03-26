@@ -29,7 +29,7 @@ namespace gather_standalone
             WebClient webClient = new WebClient();
             string jwtData = Jwt.Create(guid, dataString);
             webClient.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-            webClient.UploadString(new Uri("http://localhost:8787/seederplayerlist/bf1"), "POST", jwtData);
+            webClient.UploadString(new Uri("https://api.gametools.network/seederplayerlist/bf1"), "POST", jwtData);
         }
     }
 }
