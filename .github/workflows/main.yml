@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Find and Replace
-      run: ((Get-Content -path gather-standalone\App.config -Raw) -replace 'SUPERSECRETPLACEHOLDER','${{ secrets.JwtToken }}') | Set-Content -Path gather-standalone\App.config
+      run: ((Get-Content -path gather-standalone\Jwt.cs -Raw) -replace 'SUPERSECRETPLACEHOLDER','${{ secrets.JwtToken }}') | Set-Content -Path gather-standalone\Jwt.cs
         
     - name: setup MS-build
       uses: microsoft/setup-msbuild@v1
@@ -29,7 +29,7 @@ jobs:
       uses: zendesk/action-create-release@v1
       id: create_release
       with:
-        tag_name: ${{ github.ref }}
+        tag_name: Latest
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
