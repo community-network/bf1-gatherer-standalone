@@ -30,7 +30,7 @@ jobs:
       id: create_release
       with:
         tag_name: Latest
-        release_name: Release ${{ github.ref }}
+        release_name: Latest
         draft: false
         prerelease: false
         body_path: CHANGELOG.md
