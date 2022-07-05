@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
+using DiscordRPC;
+using DiscordRPC.Logging;
+using Button = DiscordRPC.Button;
 
 namespace gather_standalone
 {
@@ -10,6 +13,7 @@ namespace gather_standalone
         private Thread send_thread;
         private Guid guid;
         private System.Windows.Forms.Timer QuitTimer;
+        public DiscordRpcClient client;
         public Main()
         {
             InitializeComponent();
@@ -58,8 +62,59 @@ namespace gather_standalone
             this.send_thread.Start();
         }
 
+        private void initDiscord()
+        {
+            /*
+	        Create a Discord client
+	        NOTE: 	If you are using Unity3D, you must use the full constructor and define
+			         the pipe connection.
+	        */
+            client = new DiscordRpcClient("993783880777744524");
+
+            //Connect to the RPC
+            client.Initialize();
+        }
+
+        private void updatePresence(GameReader.CurrentServerReader current_server_reader)
+        {
+            try
+            {
+                string game_id = Api.GetGameId(current_server_reader);
+
+                //Set the rich presence
+                //Call this as many times as you want and anywhere in your code.
+                client.SetPresence(new RichPresence()
+                {
+                    Details = current_server_reader.ServerName,
+                    State = String.Format("{} players", current_server_reader.PlayerLists_All),
+                    Timestamps = new Timestamps()
+                    {
+                        Start = DateTime.UtcNow.AddSeconds(1)
+                    },
+                    Assets = new Assets()
+                    {
+                        LargeImageKey = "battlefield-1_jpg_adapt_crop16x9_1023w",
+                        LargeImageText = "Battlefield 1",
+                        SmallImageKey = "battlefield-1_jpg_adapt_crop16x9_1023w"
+                    },
+                    Buttons = new Button[] //$"{textBox10.Text}"
+                    {
+                    new Button() { Label = "Join", Url = $"https://joinme.click/g/bf1/{game_id}" },
+                    new Button() { Label = "View server", Url = $"https://gametools.network/servers/bf1/gameid/{game_id}/pc" }
+                    }
+                });
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+
         private void SendServerInfo()
         {
+            initDiscord();
+
             while (true)
             {
                 GameReader.CurrentServerReader current_server_reader = new GameReader.CurrentServerReader();
@@ -67,6 +122,8 @@ namespace gather_standalone
                 {
                     if (current_server_reader.PlayerLists_All.Count > 0 && current_server_reader.ServerName != "")
                     {
+                        updatePresence(current_server_reader);
+
                         try
                         {
                             Api.PostPlayerlist(current_server_reader, this.guid);
