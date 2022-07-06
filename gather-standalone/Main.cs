@@ -2,8 +2,6 @@
 using System.Threading;
 using System.Windows.Forms;
 using DiscordRPC;
-using DiscordRPC.Logging;
-using Button = DiscordRPC.Button;
 
 namespace gather_standalone
 {
@@ -78,13 +76,13 @@ namespace gather_standalone
         }
 
         private void UpdatePresenceInMenu()
-        {
+        { 
             if (Game.IsRunning())
             {
                 client.SetPresence(new RichPresence()
                 {
                     Details = "In the menu's",
-                    State = "-",
+                    State = "0 players",
                     Timestamps = new Timestamps()
                     {
                         Start = DateTime.UtcNow.AddSeconds(1)
@@ -109,8 +107,8 @@ namespace gather_standalone
                 //Call this as many times as you want and anywhere in your code.
                 client.SetPresence(new RichPresence()
                 {
-                    Details = current_server_reader.ServerName,
-                    State = String.Format("{} players", current_server_reader.PlayerLists_All),
+                    Details = $"{current_server_reader.ServerName}",
+                    State = $"{current_server_reader.PlayerLists_All.Count} players",
                     Timestamps = new Timestamps()
                     {
                         Start = DateTime.UtcNow.AddSeconds(1)
@@ -120,11 +118,6 @@ namespace gather_standalone
                         LargeImageKey = "bf1",
                         LargeImageText = "Battlefield 1",
                         SmallImageKey = "bf1"
-                    },
-                    Buttons = new Button[] //$"{textBox10.Text}"
-                    {
-                    new Button() { Label = "Join", Url = $"https://joinme.click/g/bf1/{game_id}" },
-                    new Button() { Label = "View server", Url = $"https://gametools.network/servers/bf1/gameid/{game_id}/pc" }
                     }
                 });
             }
