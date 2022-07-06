@@ -99,32 +99,23 @@ namespace gather_standalone
 
         private void UpdatePresence(GameReader.CurrentServerReader current_server_reader)
         {
-            try
+            //Set the rich presence
+            //Call this as many times as you want and anywhere in your code.
+            client.SetPresence(new RichPresence()
             {
-                string game_id = Api.GetGameId(current_server_reader);
-
-                //Set the rich presence
-                //Call this as many times as you want and anywhere in your code.
-                client.SetPresence(new RichPresence()
+                Details = $"{current_server_reader.ServerName}",
+                State = $"{current_server_reader.PlayerLists_All.Count} players",
+                Timestamps = new Timestamps()
                 {
-                    Details = $"{current_server_reader.ServerName}",
-                    State = $"{current_server_reader.PlayerLists_All.Count} players",
-                    Timestamps = new Timestamps()
-                    {
-                        Start = DateTime.UtcNow.AddSeconds(1)
-                    },
-                    Assets = new Assets()
-                    {
-                        LargeImageKey = "bf1",
-                        LargeImageText = "Battlefield 1",
-                        SmallImageKey = "bf1"
-                    }
-                });
-            }
-            catch (Exception)
-            {
-
-            }
+                    Start = DateTime.UtcNow.AddSeconds(1)
+                },
+                Assets = new Assets()
+                {
+                    LargeImageKey = "bf1",
+                    LargeImageText = "Battlefield 1",
+                    SmallImageKey = "bf1"
+                }
+            });
         }
 
 
