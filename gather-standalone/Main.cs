@@ -99,23 +99,26 @@ namespace gather_standalone
 
         private void UpdatePresence(GameReader.CurrentServerReader current_server_reader)
         {
-            //Set the rich presence
-            //Call this as many times as you want and anywhere in your code.
-            client.SetPresence(new RichPresence()
+            if (discord_is_running)
             {
-                Details = $"{current_server_reader.ServerName}",
-                State = $"{current_server_reader.PlayerLists_All.Count} players",
-                Timestamps = new Timestamps()
+                //Set the rich presence
+                //Call this as many times as you want and anywhere in your code.
+                client.SetPresence(new RichPresence()
                 {
-                    Start = DateTime.UtcNow.AddSeconds(1)
-                },
-                Assets = new Assets()
-                {
-                    LargeImageKey = "bf1",
-                    LargeImageText = "Battlefield 1",
-                    SmallImageKey = "bf1"
-                }
-            });
+                    Details = $"{current_server_reader.ServerName}",
+                    State = $"{current_server_reader.PlayerLists_All.Count} players",
+                    Timestamps = new Timestamps()
+                    {
+                        Start = DateTime.UtcNow.AddSeconds(1)
+                    },
+                    Assets = new Assets()
+                    {
+                        LargeImageKey = "bf1",
+                        LargeImageText = "Battlefield 1",
+                        SmallImageKey = "bf1"
+                    }
+                });
+            }
         }
 
 
