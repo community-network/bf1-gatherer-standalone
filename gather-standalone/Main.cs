@@ -77,7 +77,7 @@ namespace gather_standalone
 
         private void UpdatePresenceInMenu()
         { 
-            if (Game.IsRunning())
+            if (Game.IsRunning() && discord_is_running)
             {
                 client.SetPresence(new RichPresence()
                 {
