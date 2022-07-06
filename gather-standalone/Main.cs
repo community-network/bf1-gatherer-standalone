@@ -13,7 +13,8 @@ namespace gather_standalone
         private Thread send_thread;
         private Guid guid;
         private System.Windows.Forms.Timer QuitTimer;
-        public DiscordRpcClient client;
+        private DiscordRpcClient client;
+        private bool discord_is_running = false;
         public Main()
         {
             InitializeComponent();
@@ -62,20 +63,43 @@ namespace gather_standalone
             this.send_thread.Start();
         }
 
-        private void initDiscord()
+        private void StartStopDiscord()
         {
-            /*
-	        Create a Discord client
-	        NOTE: 	If you are using Unity3D, you must use the full constructor and define
-			         the pipe connection.
-	        */
-            client = new DiscordRpcClient("993783880777744524");
-
-            //Connect to the RPC
-            client.Initialize();
+            if (Game.IsRunning() && !discord_is_running)
+            {
+                client = new DiscordRpcClient("993783880777744524");
+                client.Initialize();
+                discord_is_running = true;
+            } else if (!Game.IsRunning() && discord_is_running)
+            {
+                client.Dispose();
+                discord_is_running = false;
+            }
         }
 
-        private void updatePresence(GameReader.CurrentServerReader current_server_reader)
+        private void UpdatePresenceInMenu()
+        {
+            if (Game.IsRunning())
+            {
+                client.SetPresence(new RichPresence()
+                {
+                    Details = "In the menu's",
+                    State = "-",
+                    Timestamps = new Timestamps()
+                    {
+                        Start = DateTime.UtcNow.AddSeconds(1)
+                    },
+                    Assets = new Assets()
+                    {
+                        LargeImageKey = "bf1",
+                        LargeImageText = "Battlefield 1",
+                        SmallImageKey = "bf1"
+                    }
+                });
+            }
+        }
+
+        private void UpdatePresence(GameReader.CurrentServerReader current_server_reader)
         {
             try
             {
@@ -93,9 +117,9 @@ namespace gather_standalone
                     },
                     Assets = new Assets()
                     {
-                        LargeImageKey = "battlefield-1_jpg_adapt_crop16x9_1023w",
+                        LargeImageKey = "bf1",
                         LargeImageText = "Battlefield 1",
-                        SmallImageKey = "battlefield-1_jpg_adapt_crop16x9_1023w"
+                        SmallImageKey = "bf1"
                     },
                     Buttons = new Button[] //$"{textBox10.Text}"
                     {
@@ -113,16 +137,15 @@ namespace gather_standalone
 
         private void SendServerInfo()
         {
-            initDiscord();
-
             while (true)
             {
+                StartStopDiscord();
                 GameReader.CurrentServerReader current_server_reader = new GameReader.CurrentServerReader();
                 if (current_server_reader.hasResults)
                 {
                     if (current_server_reader.PlayerLists_All.Count > 0 && current_server_reader.ServerName != "")
                     {
-                        updatePresence(current_server_reader);
+                        UpdatePresence(current_server_reader);
 
                         try
                         {
@@ -132,8 +155,13 @@ namespace gather_standalone
                         {
 
                         }
+                    } 
+                    else
+                    {
+                        UpdatePresenceInMenu();
                     }
                 }
+
                 Thread.Sleep(10000);
             }
         }
