@@ -18,7 +18,7 @@ namespace gather_standalone
             WebClient webClient = new WebClient();
             webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 
-            return webClient.UploadString(new Uri("https://api.gametools.network/seedergameid/bf1"), "POST", dataString);
+            return webClient.UploadString(new Uri("https://api.gametools.network/seedergameid/bf1"), "POST", dataString).Replace("\"", "");
         }
 
         public static void PostPlayerlist(GameReader.CurrentServerReader current_server_reader, Guid guid)

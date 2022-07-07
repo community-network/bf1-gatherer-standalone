@@ -13,6 +13,7 @@ namespace gather_standalone
         private System.Windows.Forms.Timer QuitTimer;
         private DiscordRpcClient client;
         private bool discord_is_running = false;
+        DateTime start_time;
         public Main()
         {
             InitializeComponent();
@@ -68,6 +69,7 @@ namespace gather_standalone
                 client = new DiscordRpcClient("993783880777744524");
                 client.Initialize();
                 discord_is_running = true;
+                start_time = DateTime.UtcNow.AddSeconds(1);
             } else if (!Game.IsRunning() && discord_is_running)
             {
                 client.Dispose();
@@ -85,14 +87,15 @@ namespace gather_standalone
                     State = "0 players",
                     Timestamps = new Timestamps()
                     {
-                        Start = DateTime.UtcNow.AddSeconds(1)
+                        Start = start_time
                     },
                     Assets = new Assets()
                     {
                         LargeImageKey = "bf1",
                         LargeImageText = "Battlefield 1",
                         SmallImageKey = "bf1"
-                    }
+                    },
+
                 });
             }
         }
@@ -101,23 +104,36 @@ namespace gather_standalone
         {
             if (discord_is_running)
             {
-                //Set the rich presence
-                //Call this as many times as you want and anywhere in your code.
-                client.SetPresence(new RichPresence()
+                try
                 {
-                    Details = $"{current_server_reader.ServerName}",
-                    State = $"{current_server_reader.PlayerLists_All.Count} players",
-                    Timestamps = new Timestamps()
+                    string game_id = Api.GetGameId(current_server_reader);
+                    //Set the rich presence
+                    //Call this as many times as you want and anywhere in your code.
+                    client.SetPresence(new RichPresence()
                     {
-                        Start = DateTime.UtcNow.AddSeconds(1)
-                    },
-                    Assets = new Assets()
-                    {
-                        LargeImageKey = "bf1",
-                        LargeImageText = "Battlefield 1",
-                        SmallImageKey = "bf1"
-                    }
-                });
+                        Details = $"{current_server_reader.ServerName}",
+                        State = $"{current_server_reader.PlayerLists_All.Count} players",
+                        Timestamps = new Timestamps()
+                        {
+                            Start = start_time
+                        },
+                        Assets = new Assets()
+                        {
+                            LargeImageKey = "bf1",
+                            LargeImageText = "Battlefield 1",
+                            SmallImageKey = "bf1"
+                        },
+                        Buttons = new DiscordRPC.Button[] //$"{textBox10.Text}"
+                        {
+                        new DiscordRPC.Button() { Label = "Join", Url = $"https://joinme.click/g/bf1/{game_id}" },
+                        new DiscordRPC.Button() { Label = "View server", Url = $"https://gametools.network/servers/bf1/gameid/{game_id}/pc" }
+                        }
+                    });
+                }
+                catch (Exception)
+                {
+
+                }
             }
         }
 
