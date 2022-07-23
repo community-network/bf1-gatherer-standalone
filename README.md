@@ -2,6 +2,8 @@
 
 This tool allows you gather information about the current server you're in like servername and players with k/d and score, and send it to things like our database.
 
+Download the tool via the release tab on GitHub: https://github.com/community-network/bf1-gatherer-standalone/releases
+
 ![image](https://user-images.githubusercontent.com/22680656/163713140-08f90900-c479-41bd-8219-f8299e5a5507.png)
 
 #### Api:
