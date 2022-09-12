@@ -7,20 +7,6 @@ namespace gather_standalone
 {
     internal class Api
     {
-        public static string GetGameId(GameReader.CurrentServerReader current_server_reader)
-        {
-            var post = new
-            {
-                name = current_server_reader.ServerName
-            };
-            JavaScriptSerializer json_serializer = new JavaScriptSerializer();
-            string dataString = json_serializer.Serialize(post);
-            WebClient webClient = new WebClient();
-            webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-
-            return webClient.UploadString(new Uri("https://api.gametools.network/seedergameid/bf1"), "POST", dataString).Replace("\"", "");
-        }
-
         public static void PostPlayerlist(GameReader.CurrentServerReader current_server_reader, Guid guid)
         {
             var post = new
@@ -28,14 +14,19 @@ namespace gather_standalone
                 guid = guid.ToString(),
                 serverinfo = new
                 {
-                    name = current_server_reader.ServerName
+                    name = current_server_reader.ServerName,
+                    gameId = current_server_reader.GameId
                 },
                 teams = new
                 {
                     team1 = current_server_reader.PlayerLists_Team1,
                     team2 = current_server_reader.PlayerLists_Team2,
                     scoreteam1 = current_server_reader.ServerScoreTeam1,
-                    scoreteam2 = current_server_reader.ServerScoreTeam2
+                    scoreteam2 = current_server_reader.ServerScoreTeam2,
+                    scoreteam1FromKills = current_server_reader.Team1ScoreFromKill,
+                    scoreteam2FromKills = current_server_reader.Team2ScoreFromKill,
+                    scoreteam1FromFlags = current_server_reader.Team1ScoreFromFlags,
+                    scoreteam2FromFlags = current_server_reader.Team2ScoreFromFlags,
                 }
             };
             JavaScriptSerializer json_serializer = new JavaScriptSerializer();
@@ -45,6 +36,8 @@ namespace gather_standalone
             webClient.Headers.Add(HttpRequestHeader.ContentType, "application/json");
             string postData = json_serializer.Serialize(new {data = jwtData});
             webClient.UploadString(new Uri("https://api.gametools.network/seederplayerlist/bf1"), "POST", postData);
+
+            Console.WriteLine(json_serializer.Serialize(current_server_reader));
         }
     }
 }
