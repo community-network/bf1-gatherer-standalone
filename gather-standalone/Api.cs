@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Net;
-using System.Web.Script.Serialization;
+using System.Net.Http;
+using System.Text;
+using Newtonsoft.Json;
 using gather_standalone.Properties;
 
 namespace gather_standalone
@@ -9,7 +10,7 @@ namespace gather_standalone
     {
         public static void PostPlayerlist(GameReader.CurrentServerReader current_server_reader, Guid guid)
         {
-            var post = new
+            var payload = new
             {
                 guid = guid.ToString(),
                 serverinfo = new
@@ -29,15 +30,12 @@ namespace gather_standalone
                     scoreteam2FromFlags = current_server_reader.Team2ScoreFromFlags,
                 }
             };
-            JavaScriptSerializer json_serializer = new JavaScriptSerializer();
-            string dataString = json_serializer.Serialize(post);
-            WebClient webClient = new WebClient();
+            string dataString = JsonConvert.SerializeObject(payload);
             string jwtData = Jwt.Create(guid, dataString);
-            webClient.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-            string postData = json_serializer.Serialize(new {data = jwtData});
-            webClient.UploadString(new Uri("https://api.gametools.network/seederplayerlist/bf1"), "POST", postData);
-
-            Console.WriteLine(json_serializer.Serialize(current_server_reader));
+            string stringPayload = JsonConvert.SerializeObject(new { data = jwtData });
+            StringContent httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+            HttpResponseMessage httpResponse = new HttpClient().PostAsync("https://api.gametools.network/seederplayerlist/bf1", httpContent).Result;
+            _ = httpResponse.Content.ReadAsStringAsync().Result;
         }
     }
 }

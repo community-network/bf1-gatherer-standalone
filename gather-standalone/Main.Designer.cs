@@ -42,9 +42,9 @@
             // MainTitle
             // 
             this.MainTitle.AutoSize = true;
-            this.MainTitle.Location = new System.Drawing.Point(22, 21);
+            this.MainTitle.Location = new System.Drawing.Point(22, 17);
             this.MainTitle.Name = "MainTitle";
-            this.MainTitle.Size = new System.Drawing.Size(828, 25);
+            this.MainTitle.Size = new System.Drawing.Size(936, 32);
             this.MainTitle.TabIndex = 0;
             this.MainTitle.Text = "Keep this running to send current Kills/Deaths of the server your playing to game" +
     "tools";
@@ -54,16 +54,16 @@
             this.IdTitleLabel.AutoSize = true;
             this.IdTitleLabel.Location = new System.Drawing.Point(22, 46);
             this.IdTitleLabel.Name = "IdTitleLabel";
-            this.IdTitleLabel.Size = new System.Drawing.Size(233, 25);
+            this.IdTitleLabel.Size = new System.Drawing.Size(257, 32);
             this.IdTitleLabel.TabIndex = 3;
             this.IdTitleLabel.Text = "Your unique sender ID:";
             // 
             // IdLabel
             // 
             this.IdLabel.AutoSize = true;
-            this.IdLabel.Location = new System.Drawing.Point(252, 46);
+            this.IdLabel.Location = new System.Drawing.Point(275, 46);
             this.IdLabel.Name = "IdLabel";
-            this.IdLabel.Size = new System.Drawing.Size(424, 25);
+            this.IdLabel.Size = new System.Drawing.Size(470, 32);
             this.IdLabel.TabIndex = 5;
             this.IdLabel.TabStop = true;
             this.IdLabel.Text = "00000000-0000-0000-0000-000000000000";
@@ -72,8 +72,8 @@
             // InfoLabel
             // 
             this.InfoLabel.AutoSize = true;
-            this.InfoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(254)));
-            this.InfoLabel.Location = new System.Drawing.Point(675, 46);
+            this.InfoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.InfoLabel.Location = new System.Drawing.Point(742, 51);
             this.InfoLabel.Name = "InfoLabel";
             this.InfoLabel.Size = new System.Drawing.Size(175, 25);
             this.InfoLabel.TabIndex = 6;
@@ -91,7 +91,7 @@
             // 
             // HideButton
             // 
-            this.HideButton.Location = new System.Drawing.Point(607, 81);
+            this.HideButton.Location = new System.Drawing.Point(714, 86);
             this.HideButton.Name = "HideButton";
             this.HideButton.Size = new System.Drawing.Size(239, 40);
             this.HideButton.TabIndex = 7;
@@ -102,9 +102,9 @@
             // QuitOnLeaveOption
             // 
             this.QuitOnLeaveOption.AutoSize = true;
-            this.QuitOnLeaveOption.Location = new System.Drawing.Point(27, 85);
+            this.QuitOnLeaveOption.Location = new System.Drawing.Point(27, 86);
             this.QuitOnLeaveOption.Name = "QuitOnLeaveOption";
-            this.QuitOnLeaveOption.Size = new System.Drawing.Size(352, 29);
+            this.QuitOnLeaveOption.Size = new System.Drawing.Size(400, 36);
             this.QuitOnLeaveOption.TabIndex = 8;
             this.QuitOnLeaveOption.Text = "Quit if Battlefield 1 isn\'t detected";
             this.QuitOnLeaveOption.UseVisualStyleBackColor = true;
@@ -113,7 +113,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(879, 140);
+            this.ClientSize = new System.Drawing.Size(965, 140);
             this.Controls.Add(this.QuitOnLeaveOption);
             this.Controls.Add(this.HideButton);
             this.Controls.Add(this.InfoLabel);

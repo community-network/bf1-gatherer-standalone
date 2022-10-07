@@ -6,7 +6,8 @@ namespace gather_standalone
 {
     public partial class Main : Form
     {
-        bool QuitOnLeaveConfig;
+        private bool CancelSendServerinfo;
+        private bool QuitOnLeaveConfig;
         private Thread send_thread;
         private Guid guid;
         private System.Windows.Forms.Timer QuitTimer;
@@ -30,7 +31,7 @@ namespace gather_standalone
         {
             if (this.QuitOnLeaveConfig && !Game.IsRunning())
             {
-                this.send_thread.Abort();
+                CancelSendServerinfo = true;
                 this.Close();
                 Application.Exit();
             }
@@ -38,7 +39,7 @@ namespace gather_standalone
 
         private void Form_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.send_thread.Abort();
+            CancelSendServerinfo = true;
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -54,13 +55,14 @@ namespace gather_standalone
             }
             IdLabel.Text = this.guid.ToString();
 
+            CancelSendServerinfo = false;
             this.send_thread = new Thread(new ThreadStart(SendServerInfo));
             this.send_thread.Start();
         }
 
         private void SendServerInfo()
         {
-            while (true)
+            while (!CancelSendServerinfo)
             {
                 GameReader.CurrentServerReader current_server_reader = new GameReader.CurrentServerReader();
                 if (current_server_reader.hasResults)
