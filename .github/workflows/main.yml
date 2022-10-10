@@ -45,6 +45,6 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: gather-standalone\bin\Release\net6.0-windows\win-x64\publish\\gather-standalone.exe
+        asset_path: gather-standalone\bin\Release\net6.0-windows\win-x64\publish\gather-standalone.exe
         asset_name: gather-standalone.exe
         asset_content_type: application/exe
