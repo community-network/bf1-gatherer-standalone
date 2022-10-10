@@ -23,7 +23,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.1
     
     - name: Build
-      run: msbuild seeder-app-C-sharp.sln /t:Restore /p:Configuration=Release /p:Platform=x64
+      run: msbuild gather-standalone.sln /t:Restore /p:Configuration=Release /p:Platform=x64
       
     - name: Run publish
       run: dotnet publish -r win-x64 -c Release -p:PublishSingleFile=true --self-contained false gather-standalone\gather-standalone.csproj
