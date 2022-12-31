@@ -15,8 +15,8 @@ namespace gather_standalone.Structs
         public int kills { get; set; }
         public int deaths { get; set; }
         public int score { get; set; }
-        public string vehicle { get; set; }
-        public List<string> weapons { get; set; }
+        public Dictionary<string, string> vehicle { get; set; }
+        public List<Dictionary<string, string>> weapons { get; set; }
     }
 
     internal class Platoon

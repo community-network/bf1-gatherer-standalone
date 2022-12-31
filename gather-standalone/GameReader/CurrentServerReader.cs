@@ -67,7 +67,7 @@ namespace gather_standalone.GameReader
 
                 for (int i = 0; i < 74; i++)
                 {
-                    List<string> WeaponSlot = new List<string>();
+                    List<Dictionary<string, string>> WeaponSlot = new List<Dictionary<string, string>>();
                     var pClientPlayerBA = Player.GetPlayerById(i);
                     if (!Memory.IsValid(pClientPlayerBA))
                         continue;
@@ -109,7 +109,7 @@ namespace gather_standalone.GameReader
                             var weapon_id = Memory.ReadString(offset0, 64);
                             if (weapon_id != "")
                             {
-                                WeaponSlot.Add(weapon_id);
+                                WeaponSlot.Add(Statics.getItem(weapon_id));
                             }
                         }
                     }
@@ -132,7 +132,7 @@ namespace gather_standalone.GameReader
                         kills = 0,
                         deaths = 0,
                         score = 0,
-                        vehicle = player_vehicle,
+                        vehicle = Statics.getItem(player_vehicle),
                         weapons = WeaponSlot
                     });
                 }
