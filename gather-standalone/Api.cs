@@ -3,12 +3,14 @@ using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
 using gather_standalone.Properties;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace gather_standalone
 {
     internal class Api
     {
-        public static void PostPlayerlist(GameReader.CurrentServerReader current_server_reader, Guid guid)
+        public static void PostPlayerlist(GameReader.CurrentServerReader current_server_reader, Guid guid, List<Structs.Message> newChatMessages)
         {
             var payload = new
             {
@@ -28,7 +30,8 @@ namespace gather_standalone
                     scoreteam2FromKills = current_server_reader.Team2ScoreFromKill,
                     scoreteam1FromFlags = current_server_reader.Team1ScoreFromFlags,
                     scoreteam2FromFlags = current_server_reader.Team2ScoreFromFlags,
-                }
+                },
+                messages = newChatMessages
             };
             string dataString = JsonConvert.SerializeObject(payload);
             string jwtData = Jwt.Create(guid, dataString);

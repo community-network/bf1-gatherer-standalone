@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -62,26 +63,57 @@ namespace gather_standalone
 
         private void SendServerInfo()
         {
+            long old_pSender = 0, old_pContent = 0;
+            List<Structs.Message> newChatMessages = new List<Structs.Message>();
+            DateTime timer = DateTime.UtcNow.AddSeconds(10);
             while (!CancelSendServerinfo)
             {
-                GameReader.CurrentServerReader current_server_reader = new GameReader.CurrentServerReader();
-                if (current_server_reader.hasResults)
+                DateTime current = DateTime.UtcNow;
+                if (GameReader.Memory.Initialize())
                 {
-                    if (current_server_reader.PlayerLists_All.Count > 0 && current_server_reader.ServerName != "")
+                    string sender = GameReader.Chat.GetLastChatSender(out long pSender);
+                    string content = GameReader.Chat.GetLastChatContent(out long pContent);
+
+                    if (pSender != 0 && pContent != 0)
                     {
-
-                        try
+                        if (pSender != old_pSender && pContent != old_pContent)
                         {
-                            Api.PostPlayerlist(current_server_reader, this.guid);
-                        }
-                        catch (Exception)
-                        {
+                            newChatMessages.Add(new Structs.Message
+                            {
+                                timestamp = current,
+                                sender = sender,
+                                content = content,
+                            });
 
+                            old_pSender = pSender;
+                            old_pContent = pContent;
                         }
                     }
                 }
 
-                Thread.Sleep(10000);
+                // push info once every 10 seconds
+                if (current > timer) {
+                    GameReader.CurrentServerReader current_server_reader = new GameReader.CurrentServerReader();
+                    if (current_server_reader.hasResults)
+                    {
+                        if (current_server_reader.PlayerLists_All.Count > 0 && current_server_reader.ServerName != "")
+                        {
+
+                            try
+                            {
+                                Api.PostPlayerlist(current_server_reader, this.guid, newChatMessages);
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                        }
+                    }
+                    timer = DateTime.UtcNow.AddSeconds(10);
+                    newChatMessages = new List<Structs.Message>();
+                }
+
+                Thread.Sleep(200);
             }
         }
 
