@@ -30,6 +30,12 @@ namespace gather_standalone.GameReader
 
         public string player_vehicle { get; private set; }
 
+        public long PSender { get; private set; }
+        public long PContent { get; private set; }
+        public string ChatSender { get; private set; }
+        public string ChatContent { get; private set; }
+
+
         public CurrentServerReader()
         {
             PlayerLists_All = new List<Structs.PlayerList>();
@@ -203,6 +209,15 @@ namespace gather_standalone.GameReader
 
                 RefreshTime = DateTime.Now;
                 hasResults = true;
+
+                string sender = GameReader.Chat.GetLastChatSender(out long pSender);
+                string content = GameReader.Chat.GetLastChatContent(out long pContent);
+
+                PSender = pSender;
+                PContent = pContent;
+
+                ChatSender = sender;
+                ChatContent = content;
 
                 Memory.CloseHandle();
             }
