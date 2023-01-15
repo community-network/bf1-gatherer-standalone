@@ -6,6 +6,74 @@ namespace gather_standalone.GameReader
 
     public class Statics
     {
+        public static string getSquadName(int squadID)
+        {
+            switch (squadID)
+            {
+                case 0:
+                case 99:
+                    return "Apples";
+                case 1:
+                    return "Butter";
+                case 2:
+                    return "Charliie";
+                case 3:
+                    return "Duff";
+                case 4:
+                    return "Edward";
+                case 5:
+                    return "Freddie";
+                case 6:
+                    return "George";
+                case 7:
+                    return "Harry";
+                case 8:
+                    return "Ink";
+                case 9:
+                    return "Johnnie";
+                case 10:
+                    return "King";
+                case 11:
+                    return "London";
+                case 12:
+                    return "Monkey";
+                case 13:
+                    return "Nuts";
+                case 14:
+                    return "Orange";
+                case 15:
+                    return "Pudding";
+                default:
+                    return squadID.ToString();
+            }
+        }
+
+        public static Dictionary<string, string> getPlayerClass(string item)
+        {
+            var items = new Dictionary<string, Dictionary<string, string>>()
+            {
+                {"ID_M_TANKER", new Dictionary<string, string>(){ { "name", "Tanker" }, { "black", "https://cdn.gametools.network/kits/bf1/black/KitIconTankerLarge.png" }, { "white", "https://cdn.gametools.network/kits/bf1/white/KitIconTankerLarge.png" } } },
+                {"ID_M_PILOT", new Dictionary<string, string>(){ { "name", "Pilot" }, { "black", "https://cdn.gametools.network/kits/bf1/black/KitIconPilotLarge.png" }, { "white", "https://cdn.gametools.network/kits/bf1/white/KitIconPilotLarge.png" } } },
+                {"ID_M_CAVALRY", new Dictionary<string, string>(){ { "name", "Cavalry" }, { "black", "https://cdn.gametools.network/kits/bf1/black/KitIconRiderLarge.png" }, { "white", "https://cdn.gametools.network/kits/bf1/white/KitIconRiderLarge.png" } } },
+                {"ID_M_SENTRY", new Dictionary<string, string>(){ { "name", "Sentry" }, { "black", "https://cdn.gametools.network/kits/bf1/black/KitIconSentryLarge.png" }, { "white", "https://cdn.gametools.network/kits/bf1/white/KitIconSentryLarge.png" } } },
+                {"ID_M_FLAMETHROWER", new Dictionary<string, string>(){ { "name", "Flamethrower" }, { "black", "https://cdn.gametools.network/kits/bf1/black/KitIconFlamethrowerLarge.png" }, { "white", "https://cdn.gametools.network/kits/bf1/white/KitIconFlamethrowerLarge.png" } } },
+                {"ID_M_INFILTRATOR", new Dictionary<string, string>(){ { "name", "Infiltrator" }, { "black", "https://cdn.gametools.network/kits/bf1/black/KitIconInfiltratorLarge.png" }, { "white", "https://cdn.gametools.network/kits/bf1/white/KitIconInfiltratorLarge.png" } } },
+                {"ID_M_TRENCHRAIDER", new Dictionary<string, string>(){ { "name", "Trenchraider" }, { "black", "https://cdn.gametools.network/kits/bf1/black/KitIconTrenchRaiderLarge.png" }, { "white", "https://cdn.gametools.network/kits/bf1/white/KitIconTrenchRaiderLarge.png" } } },
+                {"ID_M_ANTITANK", new Dictionary<string, string>(){ { "name", "Anti-tank" }, { "black", "https://cdn.gametools.network/kits/bf1/black/KitIconAntiTankLarge.png" }, { "white", "https://cdn.gametools.network/kits/bf1/white/KitIconAntiTankLarge.png" } } },
+                {"ID_M_ASSAULT", new Dictionary<string, string>(){ { "name", "Assult" }, { "black", "https://cdn.gametools.network/kits/bf1/black/KitIconAssaultLarge.png" }, { "white", "https://cdn.gametools.network/kits/bf1/white/KitIconAssaultLarge.png" } } },
+                {"ID_M_MEDIC", new Dictionary<string, string>(){ { "name", "Medic" }, { "black", "https://cdn.gametools.network/kits/bf1/black/KitIconMedicLarge.png" }, { "white", "https://cdn.gametools.network/kits/bf1/white/KitIconMedicLarge.png" } } },
+                {"ID_M_SUPPORT", new Dictionary<string, string>(){ { "name", "Support" }, { "black", "https://cdn.gametools.network/kits/bf1/black/KitIconSupportLarge.png" }, { "white", "https://cdn.gametools.network/kits/bf1/white/KitIconSupportLarge.png" } } },
+                {"ID_M_SCOUT", new Dictionary<string, string>(){ { "name", "Scount" }, { "black", "https://cdn.gametools.network/kits/bf1/black/KitIconScoutLarge.png" }, { "white", "https://cdn.gametools.network/kits/bf1/white/KitIconScoutLarge.png" } } }
+            };
+
+            if (item != null && items.TryGetValue(item, out Dictionary<string, string> result))
+            {
+                result.Add("id", item);
+                return result;
+            }
+            return new Dictionary<string, string>() { { "id", item }, { "name", null }, { "black", null }, { "white", null } };
+        }
+
         public static Dictionary<string, string> getItem(string item)
         {
             var items = new Dictionary<string, Dictionary<string, string>>(){
