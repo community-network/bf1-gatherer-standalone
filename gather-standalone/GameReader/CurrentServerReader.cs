@@ -89,9 +89,17 @@ namespace gather_standalone.GameReader
                     var personaId = Memory.Read<long>(pClientPlayerBA + 0x38); // PersonaId
                     var squadID = Memory.Read<int>(pClientPlayerBA + 0x1E50); // Unknown
 
-                    var offset = Memory.Read<long>(pClientPlayerBA + 0x11A8);
-                    offset = Memory.Read<long>(offset + 0x28);
-                    var playerClass = Statics.getPlayerClass(Memory.ReadString(offset, 64)); // player class
+                    // Class info
+                    var classInfoAddr = Memory.Read<long>(Memory.Read<long>(pClientPlayerBA + 0x11A8) + 0x28);
+                    var classId = Memory.ReadString(classInfoAddr, 64);
+                    var length = classId.Length;
+                    var className = Memory.ReadString(classInfoAddr + (length * 0x1) + 0x1, 64);
+                    length = length + className.Length;
+                    var classKit = Memory.ReadString(classInfoAddr + (length * 0x1) + 0x2, 64);
+                    length = length + classKit.Length;
+                    var classInfo1 = Memory.ReadString(classInfoAddr + (length * 0x1) + 0x3, 64);
+                    length = length + classInfo1.Length;
+                    var classInfo2 = Memory.ReadString(classInfoAddr + (length * 0x1) + 0x4, 64);
 
                     var pClientVehicleEntity = Memory.Read<long>(pClientPlayerBA + 0x1D38);
                     if (Memory.IsValid(pClientVehicleEntity))
@@ -105,9 +113,6 @@ namespace gather_standalone.GameReader
                         player_vehicle = null;
 
                         var pClientSoldierEntity = Memory.Read<long>(pClientPlayerBA + 0x1D48);
-                        if (!Memory.IsValid(pClientSoldierEntity))
-                            playerClass = Statics.getPlayerClass("");
-
                         var pClientSoldierWeaponComponent = Memory.Read<long>(pClientSoldierEntity + 0x698);
                         var m_handler = Memory.Read<long>(pClientSoldierWeaponComponent + 0x8A8);
 
@@ -139,7 +144,14 @@ namespace gather_standalone.GameReader
                             name = platoonName,
                             tag = platoonTag
                         },
-                        player_class = playerClass,
+                        player_class = new Structs.PlayerClass()
+                        {
+                            class_id = classId,
+                            class_name = className,
+                            class_kit = classKit,
+                            class_info1 = classInfo1,
+                            class_info2 = classInfo2,
+                        },
                         Spectator = spectator,
                         squad_id = squadID,
                         squad_name = Statics.getSquadName(squadID),

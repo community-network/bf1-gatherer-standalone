@@ -16,7 +16,7 @@ namespace gather_standalone.Structs
         public int kills { get; set; }
         public int deaths { get; set; }
         public int score { get; set; }
-        public Dictionary<string, string> player_class { get; set; }
+        public PlayerClass player_class { get; set; }
         public byte Spectator { get; set; }
         public Dictionary<string, string> vehicle { get; set; }
         public List<Dictionary<string, string>> weapons { get; set; }
@@ -27,5 +27,14 @@ namespace gather_standalone.Structs
         public string tag { get; set; }
         public string name { get; set; }
         public string icon { get; set; }
+    }
+
+    internal class PlayerClass
+    {
+        public string class_id { get; set; }
+        public string class_name { get; set; }
+        public string class_kit { get; set; }
+        public string class_info1 { get; set; }
+        public string class_info2 { get; set; }
     }
 }
