@@ -101,6 +101,8 @@ namespace gather_standalone.GameReader
                     length = length + classInfo1.Length;
                     var classInfo2 = Memory.ReadString(classInfoAddr + (length * 0x1) + 0x4, 64);
 
+                    var playerClassIcons = Statics.getPlayerClass(classId);
+
                     var pClientVehicleEntity = Memory.Read<long>(pClientPlayerBA + 0x1D38);
                     if (Memory.IsValid(pClientVehicleEntity))
                     {
@@ -151,6 +153,7 @@ namespace gather_standalone.GameReader
                             class_kit = classKit,
                             class_info1 = classInfo1,
                             class_info2 = classInfo2,
+                            class_icons = playerClassIcons,
                         },
                         Spectator = spectator,
                         squad_id = squadID,

@@ -36,5 +36,6 @@ namespace gather_standalone.Structs
         public string class_kit { get; set; }
         public string class_info1 { get; set; }
         public string class_info2 { get; set; }
+        public Dictionary<string, string> class_icons { get; set; }
     }
 }
