@@ -68,10 +68,9 @@ namespace gather_standalone.GameReader
 
             if (item != null && items.TryGetValue(item, out Dictionary<string, string> result))
             {
-                result.Add("id", item);
                 return result;
             }
-            return new Dictionary<string, string>() { { "id", item }, { "name", null }, { "black", null }, { "white", null } };
+            return new Dictionary<string, string>() { { "black", null }, { "white", null } };
         }
 
         public static Dictionary<string, string> getItem(string item)
